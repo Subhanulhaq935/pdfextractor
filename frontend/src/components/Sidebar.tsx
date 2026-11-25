@@ -24,7 +24,7 @@ export default function Sidebar({
       {open && (
         <div
           onClick={onClose}
-          className="fixed inset-0 z-20 bg-slate-900/40 md:hidden"
+          className="fixed inset-0 z-20 bg-slate-900/40 backdrop-blur-xs md:hidden"
         />
       )}
 
@@ -36,10 +36,10 @@ export default function Sidebar({
         <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3.5">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-blue-600"
+            className="flex items-center gap-2 text-sm font-bold text-slate-800 transition hover:text-blue-600"
           >
             <ArrowLeft className="h-4 w-4" />
-            Dashboard
+            Back to Dashboard
           </Link>
           <button
             onClick={onClose}
@@ -52,16 +52,16 @@ export default function Sidebar({
         <div className="p-3">
           <Link
             href="/dashboard"
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:from-blue-700 hover:to-indigo-700"
           >
             <Plus className="h-4 w-4" />
-            New Chat (Select PDF)
+            New Chat
           </Link>
         </div>
 
         <div className="flex-1 overflow-y-auto px-3 pb-4">
-          <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
-            Conversations
+          <p className="mb-2 px-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            Saved History
           </p>
           <div className="space-y-1">
             {conversations.length === 0 ? (
@@ -76,7 +76,7 @@ export default function Sidebar({
                     onClick={onClose}
                     className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm transition ${
                       isActive
-                        ? "bg-blue-50 font-semibold text-blue-700"
+                        ? "bg-blue-50 font-semibold text-blue-700 ring-1 ring-blue-100"
                         : "text-slate-700 hover:bg-slate-100"
                     }`}
                   >
@@ -92,7 +92,7 @@ export default function Sidebar({
         <div className="border-t border-slate-200 p-3">
           <button
             onClick={onLogout}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-red-600"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
