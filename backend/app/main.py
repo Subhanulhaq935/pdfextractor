@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.core.config import get_settings
-from app.routers import auth, chat, conversations, documents
+from app.routers import auth, chat, conversations, documents, guest
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -42,3 +42,4 @@ app.include_router(auth.router)
 app.include_router(documents.router)
 app.include_router(conversations.router)
 app.include_router(chat.router)
+app.include_router(guest.router)
