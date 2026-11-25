@@ -3,18 +3,27 @@
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { api, getErrorMessage } from "@/lib/api";
-import { ChatMessage, Conversation } from "@/lib/types";
+import { ChatMessage, Conversation, DocumentItem } from "@/lib/types";
 
 export function useChat(conversationId: string) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [documentNames, setDocumentNames] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
 
   const fetchConversations = useCallback(async () => {
     try {
-      const res = await api.get<Conversation[]>("/conversations");
-      setConversations(res.data);
+      const [convRes, docsRes] = await Promise.all([
+        api.get<Conversation[]>("/conversations"),
+        api.get<DocumentItem[]>("/documents"),
+      ]);
+      setConversations(convRes.data);
+      const map: Record<string, string> = {};
+      for (const doc of docsRes.data) {
+        map[doc.id] = doc.filename;
+      }
+      setDocumentNames(map);
     } catch (err) {
       toast.error(getErrorMessage(err, "Failed to load conversations"));
     }
@@ -72,6 +81,7 @@ export function useChat(conversationId: string) {
   return {
     messages,
     conversations,
+    documentNames,
     loading,
     sending,
     sendMessage,

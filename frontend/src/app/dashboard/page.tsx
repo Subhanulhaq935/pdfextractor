@@ -127,23 +127,34 @@ export default function DashboardPage() {
               Recent Conversations
             </h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {conversations.slice(0, 6).map((conv) => (
-                <Link
-                  key={conv.id}
-                  href={`/chat/${conv.id}`}
-                  className="flex items-center gap-3 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
-                >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    <MessageSquare className="h-4 w-4" />
-                  </div>
-                  <div className="overflow-hidden">
-                    <p className="truncate text-sm font-semibold text-slate-900">{conv.title}</p>
-                    <p className="text-xs text-slate-400">
-                      {new Date(conv.updated_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                </Link>
-              ))}
+              {conversations.slice(0, 6).map((conv) => {
+                const pdfName = documents.find((d) => d.id === conv.document_id)?.filename;
+                return (
+                  <Link
+                    key={conv.id}
+                    href={`/chat/${conv.id}`}
+                    className="flex items-start gap-3 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
+                  >
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                      <MessageSquare className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-slate-900">
+                        {conv.title}
+                      </p>
+                      {pdfName && (
+                        <p className="mt-1 inline-flex max-w-full items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+                          <FileText className="h-3 w-3 shrink-0 text-blue-600" />
+                          <span className="truncate">{pdfName}</span>
+                        </p>
+                      )}
+                      <p className="mt-1 text-xs text-slate-400">
+                        {new Date(conv.updated_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         )}

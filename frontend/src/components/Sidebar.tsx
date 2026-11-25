@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, LogOut, MessageSquare, Plus, X } from "lucide-react";
+import { ArrowLeft, FileText, LogOut, MessageSquare, Plus, X } from "lucide-react";
 import { Conversation } from "@/lib/types";
 
 interface SidebarProps {
   conversations: Conversation[];
+  documentNames: Record<string, string>;
   activeId: string;
   open: boolean;
   onClose: () => void;
@@ -14,6 +15,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   conversations,
+  documentNames,
   activeId,
   open,
   onClose,
@@ -69,19 +71,28 @@ export default function Sidebar({
             ) : (
               conversations.map((conv) => {
                 const isActive = conv.id === activeId;
+                const pdfName = documentNames[conv.document_id];
                 return (
                   <Link
                     key={conv.id}
                     href={`/chat/${conv.id}`}
                     onClick={onClose}
-                    className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm transition ${
+                    className={`flex items-start gap-2.5 rounded-xl px-3 py-2.5 text-sm transition ${
                       isActive
                         ? "bg-blue-50 font-semibold text-blue-700 ring-1 ring-blue-100"
                         : "text-slate-700 hover:bg-slate-100"
                     }`}
                   >
-                    <MessageSquare className="h-4 w-4 shrink-0" />
-                    <span className="truncate">{conv.title}</span>
+                    <MessageSquare className="mt-0.5 h-4 w-4 shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate">{conv.title}</p>
+                      {pdfName && (
+                        <p className="mt-0.5 flex items-center gap-1 truncate text-[11px] font-normal text-slate-400">
+                          <FileText className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{pdfName}</span>
+                        </p>
+                      )}
+                    </div>
                   </Link>
                 );
               })
