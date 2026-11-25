@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     MAX_UPLOAD_MB: int = 20
     EMBEDDING_MODEL: str = "gemini-embedding-001"
-    CHAT_MODEL: str = "gemini-3.8-flash"
+    CHAT_MODEL: str = "gemini-2.5-flash-lite"
     SIMILARITY_THRESHOLD: float = 0.25
     TOP_K_CHUNKS: int = 5
     FRONTEND_ORIGINS: str = "http://localhost:3000"
